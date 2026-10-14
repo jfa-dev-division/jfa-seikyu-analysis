@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>年会費・請求処理の引き継ぎ｜2026年10月14日</title><style>
+:root{color-scheme:light;--ink:#243342;--muted:#526475;--line:#d8e2e7;--accent:#126a70;--paper:#fff;--bg:#f2f6f7}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 -apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif}a{color:var(--accent);text-underline-offset:3px}header{background:#163c48;color:#fff;padding:28px max(24px,calc((100vw - 1320px)/2));border-bottom:5px solid #65bec0}header .eyebrow{font-size:13px;letter-spacing:.13em;color:#b9e0e2}header .headline{font-size:24px;font-weight:700;margin:4px 0}header p{margin:4px 0;font-size:14px;color:#dcecef}.layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:30px;max-width:1320px;margin:32px auto;padding:0 24px}aside{align-self:start;position:sticky;top:20px;font-size:13px}aside .nav-title{font-weight:700;color:var(--muted);margin-bottom:12px}nav a{display:block;padding:7px 10px;border-left:2px solid var(--line);text-decoration:none;line-height:1.6}nav a:hover,nav a:focus-visible{background:#e0eeee;border-color:var(--accent)}.downloads{margin-top:20px;border-top:1px solid var(--line);padding-top:12px}.downloads a{display:block;margin:8px 0}main{min-width:0;background:var(--paper);padding:34px 40px 50px;border:1px solid var(--line);border-radius:12px;box-shadow:0 5px 24px #20384008}h1{font-size:28px;line-height:1.5;letter-spacing:-.025em;margin:0 0 28px}h2{font-size:23px;line-height:1.5;margin:48px 0 18px;border-top:1px solid var(--line);padding-top:25px;color:#164f59}h3{font-size:18px;line-height:1.6;margin:26px 0 12px}p{margin:12px 0}ul,ol{padding-left:1.5em;margin:14px 0}li{margin:9px 0;padding-left:3px}strong{font-weight:700;color:#153f4c}code{font: .88em/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;background:#edf3f5;border-radius:4px;padding:2px 5px;overflow-wrap:anywhere}table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.7}th,td{padding:12px 14px;text-align:left;vertical-align:top;border:1px solid var(--line);overflow-wrap:anywhere}th{background:#e7f0f1;color:#234d58;font-weight:700}tbody tr:nth-child(even){background:#f8fafb}.table-wrap{overflow-x:auto;margin:20px 0}.notice{border-left:4px solid #bb8733;background:#fff8ea;padding:14px 18px;margin:0 0 30px;font-size:14px}.notice strong{color:#805b20}footer{max-width:1320px;margin:0 auto;padding:0 24px 32px;color:var(--muted);font-size:12px}@media(max-width:900px){.layout{grid-template-columns:1fr;gap:20px;margin-top:20px}aside{position:static}nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.downloads{display:flex;flex-wrap:wrap;gap:16px}main{padding:25px 22px}h1{font-size:24px}}@media(max-width:520px){.layout{padding:0 12px}header{padding:20px}main{padding:22px 16px}body{font-size:15px}h2{font-size:20px}nav{grid-template-columns:1fr}th,td{padding:9px}table{min-width:510px}}@media print{@page{size:A4;margin:16mm}body{background:#fff;font-size:10pt;line-height:1.65}header{background:#fff;color:#163c48;padding:0 0 10px;border-bottom:2px solid #163c48}header p,header .eyebrow{color:#526475}header .headline{font-size:17pt}.layout{display:block;margin:0;padding:0}aside{display:none}main{border:0;border-radius:0;padding:14px 0;box-shadow:none}h1{font-size:19pt}h2{font-size:15pt;margin-top:25px;padding-top:14px;break-after:avoid}h3{font-size:12pt;break-after:avoid}table{font-size:9pt;min-width:0}.table-wrap{overflow:visible}thead{display:table-header-group}tr{break-inside:avoid}code{overflow-wrap:anywhere}a{color:inherit}footer{padding:0}.notice{break-inside:avoid}}
+</style></head><body>
+<header><div class="eyebrow">JFA · BILLING HANDOFF</div><div class="headline">年会費と請求処理の引き継ぎ</div><p>2026年10月14日整理 ／ DDR：2026年10月13日版 ／ 状態：仕様確認・実装未変更</p></header>
+<div class="layout"><aside aria-label="目次と関連資料"><div class="nav-title">目次</div><nav><a href="#section-1">1. この資料の位置付け</a><a href="#section-2">2. 参照資料・確認範囲</a><a href="#section-3">3. 年会費の業務仕様</a><a href="#section-4">4. 請求・督促の対象と日程</a><a href="#section-5">5. 現行の請求処理</a><a href="#section-6">6. DDRから確認した仕様との差異・注意点</a><a href="#section-7">7. 年間固定費の年度参照 — 要点</a><a href="#section-8">8. 未決事項と確認待ち</a><a href="#section-9">9. 次の担当者が進める順序</a><a href="#section-10">10. 引き継ぎ時の留意事項</a><a href="#section-11">11. 成果物と参照位置</a></nav><div class="downloads"><a href="handoff_billing_20261014.md">引き継ぎ全文 · Markdown</a><a href="annual_fixed_fee_reference_issues_20261014.md">年間固定費の不整合 · Markdown</a></div></aside><main><div class="notice"><strong>未決事項を確定仕様として扱わないでください。</strong><br>紹介割引と既入金・繰越金の併用、余剰額の翌年度繰越、辞退意思の管理などは検討中です。</div><h1>年会費・請求処理の引き継ぎ — 2026年10月14日</h1>
+<h2 id="section-1">1. この資料の位置付け</h2>
+<p>この会話で確認した運用仕様、最新版DDRから確認した現状、未決事項を引き継ぐ。目的は紹介者制度の年会費割引を補完し、年会費の算出・請求書・督促の仕組みを必要な範囲で修正すること。現在は仕様の認識合わせの段階であり、FileMakerの計算式・スクリプト・レイアウト・実データは変更していない。請求書作成やメール送信も実行していない。</p>
+<p>「確定・確認済み」は会話で示された業務方針またはDDR上の定義、「検討案」は未決の案、「未確認」は実データ・運用の確認が必要な事項として区別する。業務仕様が正しいことと、現行実装がその仕様どおりであることは別である。</p>
+<p>保存先はユーザーの訂正により <code>docs</code>。当初の指定「TOCS」は使用しない。会話の長期メモリへの登録は行っていない。</p>
+<h2 id="section-2">2. 参照資料・確認範囲</h2>
+<ul>
+<li>作業フォルダ：<code>/Users/nkikuchi/dev/GAS/jfa-seikyu-analysis</code></li>
+<li>DDR格納先：<code>DDL20261008</code>。フォルダ名は10月8日のままだが、内容は2026年10月13日9:45作成版に更新されている。</li>
+<li>中心となる資料：<code>DDL20261008/JFA_Data_fmp12.xml</code>。XMLはUTF-16LE。PythonのXMLパーサーで直接読むか、UTF-16としてデコードして検索する。</li>
+<li>最初は2026年10月8日版を確認し、ユーザーの更新連絡後に10月13日版を再読込した。以後の判断は10月13日版を基準とする。</li>
+<li>確認方法：ローカルDDRのテーブル、計算フィールド、リレーション、スクリプト、レイアウト定義の静的な読解。</li>
+<li>備忘録のワークフロー本文は未確認。DDRには業務メモのレコード本文が含まれない。接続確認時のFileMaker接続一覧は空だった。</li>
+</ul>
+<div class="table-wrap"><table><thead><tr><th scope="col">データベース</th><th scope="col">主な役割</th></tr></thead><tbody>
+<tr><td>JFA_Data</td><td>会員情報、会員履歴、入金履歴、年会費、請求書、紹介制度</td></tr>
+<tr><td>JFA_AContest</td><td>コンテストの申込・参加者・審査</td></tr>
+<tr><td>CV_CMP2025KOBE</td><td>コンヴェンション・コンクールの申込や入金管理</td></tr>
+<tr><td>JFA備忘録</td><td>業務記録、企業情報、発送、総会関連</td></tr>
+</tbody></table></div>
+<h2 id="section-3">3. 年会費の業務仕様</h2>
+<h3>3.1 対象年度と基本料金</h3>
+<ul>
+<li>年会費の対象期間は、毎年1月1日から12月31日まで。</li>
+<li>10月頃に次年度の請求を準備する。振込・口座振替のどちらの会員も、次年度の負担額の算出が必要。</li>
+<li>正会員本人の年会費は、次年度1月1日時点で22歳以下なら22歳以下の年会費、それ以外は通常の年会費を適用する。</li>
+<li>家族会員費は主会員に人数分を請求し、家族会員本人への別請求とはしない。</li>
+<li>紙媒体とPDFの両方で会報を受け取る場合は会報オプション費を加算する。</li>
+<li>海外在住で紙媒体の会報を受け取る場合は海外発送費を加算する。</li>
+<li>フルート教室検索を申し込んでいる場合は年間維持費を加算する。</li>
+<li>料金の基準値は「年間固定費」テーブルに置く。年度keyのレコード内に今年度分・次年度分が併存している。将来の整理構想はあるが、今回全面的に再設計する指示はない。</li>
+</ul>
+<h3>3.2 途中入会と翌年への充当</h3>
+<ul>
+<li>入会時に請求する入会金と1年分の年会費は、入会する月によって減額しない。</li>
+<li>ユーザーが示した入会月の丸め：14日までなら当月1日、15日以降なら翌月1日。</li>
+<li>入会時の年会費は、当該年の対象月分と翌年への充当分として扱う。入会金そのものとは分ける。</li>
+<li>初年度の次年度請求では、次年度の年会費から、既に翌年分として充当されている金額を差し引く。</li>
+<li>次年度の追加納入がなくても、既入金によって資格がある期間は会報を発送する。期限後は資格停止として管理する。</li>
+<li>入会年1月1日時点で22歳、翌年1月1日時点で23歳となる場合、翌年に充当した金額を通常年会費の月額に換算して扱う、という説明があった。具体的な端数月・期限日の処理は未確認。</li>
+<li>丸める元の日付を「初回入金日」とするかは、明示的な最終確認が未了。紹介制度では「入金＝入会」と確認されたが、すべての入会処理への適用は別途確認する。</li>
+</ul>
+<h3>3.3 紹介者制度の割引</h3>
+<ul>
+<li>2027年分から適用する方針。</li>
+<li>対象は正会員本人の年会費だけ。家族会員費、会報オプション、海外発送費、教室維持費は対象外。</li>
+<li>対象となる紹介1人につき年会費の12分の1を免除する。最大12人分で本人年会費は0円、マイナスにはしない。</li>
+<li>13人目以降も紹介制度は利用できる。年会費割引以外のインセンティブがあるとの説明だが、具体的な内容は本会話で定義されていない。紹介受付そのものを12人で止めない。</li>
+<li>紹介実績の集計期間は10月1日〜翌9月30日。これは紹介人数の実績計算だけの期間であり、年会費の1月〜12月とは区別する。</li>
+<li>対応例：2026年10月に発行する2027年分の請求には、2025年10月1日〜2026年9月30日の実績を対応させる。制度開始前の期間を含む初年度の扱いは未確認。</li>
+<li>紹介の成立は入金による入会確定時点。ユーザーは、この時点で紹介コードの <code>利用状態</code> を <strong>「発行済み」</strong> に変更すると説明した。この名称を「利用済み」などへ勝手に置き換えない。</li>
+<li>割引辞退者は割引しない。辞退意思を年度ごとに聞き直す方向だが、単位・保存方法・確定時期は未決。</li>
+<li>22歳以下の紹介者について割引単価をその人の適用基本年会費の12分の1とする具体式、端数金額の処理は、実装前に最終確認する。</li>
+</ul>
+<h3>3.4 既入金・繰越金と紹介割引の併用【検討中】</h3>
+<p>繰越・次年度充当には途中入会分だけでなく、返金相当額や過入金を次年度入金として扱う場合もある。</p>
+<p>ユーザーが示した検討順序は「次年度本人年会費から紹介割引を引き、さらに対象年度への既入金・繰越金を引いた額を請求する」。12人紹介して本人年会費が0円になった場合など、充当しきれない既入金をさらに翌年度へ繰り越すことも検討する。</p>
+<p><strong>これは決定事項ではない。</strong> 事務局で検討予定。超過分を消す、返金する、翌年へ移す、家族会員費・オプションへ充当するといった処理を独断で実装しない。紹介割引による年会費の下限0円と、預かり金の残額の扱いは別問題である。</p>
+<h2 id="section-4">4. 請求・督促の対象と日程</h2>
+<div class="table-wrap"><table><thead><tr><th scope="col">支払方法・連絡手段</th><th scope="col">10月の次年度請求</th><th scope="col">12月初旬の未納・引落不能時</th></tr></thead><tbody>
+<tr><td>口座振替・メール利用可</td><td>請求書を発行しない</td><td>メールで督促</td></tr>
+<tr><td>口座振替・メール利用不可</td><td>請求書を発行しない</td><td>郵送で督促</td></tr>
+<tr><td>振込・メール利用可</td><td>メールで請求</td><td>メールで督促</td></tr>
+<tr><td>振込・メール利用不可</td><td>郵送で請求</td><td>郵送督促は行わない</td></tr>
+</tbody></table></div>
+<ul>
+<li>請求書発送は10月初旬を目標とする。</li>
+<li>振込の納入期限は11月末日。</li>
+<li>口座振替額に変更がある場合は10月末までにCSSへ事前登録する。</li>
+<li>CSSによる引き落としは11月28日頃。結果は12月3日頃に確認する。</li>
+<li>引落結果・振込入金状況に応じ、12月初旬に速やかに上表の督促を行う。</li>
+<li>日付はユーザーが説明した業務運用であり、実際のCSSの年度別日程を外部確認したものではない。</li>
+</ul>
+<h2 id="section-5">5. 現行の請求処理</h2>
+<h3>5.1 呼び出し元と親スクリプト</h3>
+<p>「会員情報_202108」の「請求書作成」ボタン2か所から、<code>対象請求書作成2026</code>（ID 248）を実行する。</p>
+<ol>
+<li>元のレイアウト番号を保存し、「会員情報_202108」へ移動。</li>
+<li><code>gNYear</code>を請求年度として取得し、請求書発行日を入力する。</li>
+<li>発行日の年が<code>gToday</code>の年〜その翌年に入るか確認し、「請求」か「督促」を選択。</li>
+<li>現在の対象レコードを先頭から順に処理。対象会員の検索・除外判定はこのスクリプト内では行わない。</li>
+<li>会員番号、請求年、請求コード、請求手段、請求／督促、請求日をJSONで子スクリプトに渡す。</li>
+<li>子の結果が<code>000</code>なら会員の請求書発行日を更新し成功数を加算、<code>001</code>なら重複スキップ、それ以外はエラー数を加算。</li>
+<li>元のレイアウトへ戻る。集計件数の画面表示・結果返却はない。</li>
+</ol>
+<h3>5.2 子スクリプト</h3>
+<p><code>請求書作成2026</code>（ID 251）は以下を実行する。</p>
+<ul>
+<li>「会員番号＋請求書作成日」で重複検索。請求年度、請求／督促、請求手段は重複検索の条件に含まれない。</li>
+<li>未作成なら請求書レコードを作成する。</li>
+<li>請求年・請求手段・請求／督促で <code>請求書Msg2026</code>（元テーブル：Org_Message）の文面を参照する。</li>
+<li>請求コードで <code>年会費詳細2026</code>（元テーブル：年会費請求詳細）を参照し、請求文・決済URLを取得する。</li>
+<li>氏名、会員番号、年度、月、請求内訳、決済URL、氏名カナを文面に差し込む。</li>
+<li><code>郵送</code>・<code>口座振替Y</code>は郵送本文を保存する。</li>
+<li><code>メール</code>・<code>口座振替M</code>はメール本文・件名を保存し、その場でSMTP送信する。メール先は有効なメール履歴を変更日降順で参照する。</li>
+<li>送信直後のエラー判定がなく、<code>送信済</code>を設定する。メールアドレスの有無は履歴用の区分に使うが、送信を止める条件にはしていない。</li>
+<li><code>会員履歴登録</code>（ID 136）を呼び、請求手段・請求／督促・メールアドレス有無を記録する。</li>
+<li>重複なら<code>001</code>、それ以外の通常経路は<code>000</code>を返す。作成・送信・履歴登録の成功を個別に検証した成功コードではない。</li>
+</ul>
+<p><strong>通常請求から口座振替会員を除く条件や、振込会員の郵送督促を除く条件は、この親子スクリプトにはない。現状は実行前の対象選択に依存している。</strong></p>
+<h3>5.3 金額・請求パターン</h3>
+<ul>
+<li><code>次年度22歳以下</code>：<code>gNYear</code>の1月1日時点の年齢を判定する。</li>
+<li><code>次年度基本年会費</code>：22歳以下／通常の次年度料金を選ぶ。</li>
+<li><code>次年度入金計</code>：次年度の年会費入金履歴を合計する。途中入会分だけに限定した集計ではない。</li>
+<li><code>次年度請求分_New</code>：<code>Max ( 次年度基本年会費 - 次年度入金計 ; 0 )</code>。紹介割引は未接続。</li>
+<li><code>次年度請求額_New</code>：正会員について、本人分・家族会員費・教室維持費・会報オプション・海外発送費を加算する。</li>
+<li><code>新請求パターン更新</code>（ID 246）：年度、本人分の請求額、オプションコードを <code>新請求パターン生成</code>（ID 245）に渡し、返されたIDを会員の<code>請求ptrコード</code>へ保存する。</li>
+<li><code>新請求パターン全更新</code>：事前に選択された会員を順に更新する。正会員を検索するステップは無効化されている。</li>
+<li>一括請求書作成時に請求パターンを再計算する構成ではない。</li>
+<li><code>新請求パターン生成</code>は本人分の年会費額が0円だと終了する。本人分が0円でも家族・オプション費が残るケースを扱えない可能性がある。既存の請求ptrコードは更新失敗時に自動クリアされない。</li>
+<li><code>請求書::請求金額</code>への設定は現行の子スクリプトでは確認できない。2026版の内訳・合計は主に関連先の<code>年会費請求詳細</code>を参照している。</li>
+</ul>
+<h2 id="section-6">6. DDRから確認した仕様との差異・注意点</h2>
+<div class="table-wrap"><table><thead><tr><th scope="col">項目</th><th scope="col">確認結果</th><th scope="col">次の扱い</th></tr></thead><tbody>
+<tr><td>入会月の丸め</td><td><code>基準入会日</code>と<code>入会月2026</code>は15日まで当月、16日以降翌月。一部入金処理は15日以降翌月</td><td>業務仕様は14日／15日境界。現役処理の呼出経路と既存データへの影響を確認して統一</td></tr>
+<tr><td>会員資格期限</td><td><code>会員資格有効日</code>は既入金額から日割り日数を算出</td><td>月割り・月末・端数月の業務仕様を確定してから修正</td></tr>
+<tr><td>紹介集計</td><td><code>紹介者数_会員毎</code>は発行年度＝gYearの関連履歴の<code>有効</code>をCount</td><td>10月〜9月の実績日付、利用状態、辞退条件の対応が必要</td></tr>
+<tr><td>紹介割引</td><td>紹介制度履歴・紹介申込Log・表示欄はあるが年会費計算への割引接続は未実装</td><td>基盤は活用し、制度全体が未実装とは扱わない</td></tr>
+<tr><td>固定費参照</td><td>TOが選ぶ年度と今年度／次年度フィールドの組合せに不整合</td><td>別紙の正確なフィールド名・参照関係を確認</td></tr>
+<tr><td>会報オプション免除</td><td>事務局長・事務局次長は会報オプション0円という既存例外あり</td><td>継続する業務ルールか確認。勝手に削除しない</td></tr>
+<tr><td>対象選択</td><td>請求・督促・請求パターン更新は事前の対象レコード選択に依存</td><td>現行の手作業を確認し、必要な選別条件を設計</td></tr>
+<tr><td>本人分0円</td><td>請求パターン生成が終了する</td><td>12人紹介、既入金で本人分完納、オプションのみの請求を検討</td></tr>
+<tr><td>メール送信</td><td>作成処理中に実送信し、結果未判定で送信済へ更新</td><td>テスト時に実送信しない。送信成否と再実行の扱いを設計</td></tr>
+</tbody></table></div>
+<h2 id="section-7">7. 年間固定費の年度参照 — 要点</h2>
+<p>表中の役割表現と実フィールド名を混同しない。<code>年間固定費</code>と<code>本年度固定費</code>はTO名であり、いずれも元のテーブルは「年間固定費」である。</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">TO</th><th scope="col">年度を決める条件</th><th scope="col">2026年に2027年分を作る例</th></tr></thead><tbody>
+<tr><td>年間固定費</td><td>会員情報のgYear＝年度key</td><td>2026年レコードの次年度欄が2027年料金</td></tr>
+<tr><td>本年度固定費</td><td>年会費請求詳細の年度＝年度key</td><td>2027年レコードの今年度欄が2027年料金</td></tr>
+</tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th scope="col">実際の計算フィールド</th><th scope="col">現行の参照・問題</th></tr></thead><tbody>
+<tr><td>Association_members_201905::会報送付opt</td><td>年間固定費::今年度会報購読opt費を返し、次年度請求額にも加算される</td></tr>
+<tr><td>年会費請求詳細::教室維持費</td><td>本年度固定費::次年度教室年間維持費を加算するため、請求対象年度の翌年料金になる</td></tr>
+<tr><td>年会費請求詳細::r教室文</td><td>同じ翌年の教室料金を文面に表示する</td></tr>
+<tr><td>年会費請求詳細::オプション文</td><td>本年度固定費::次年度年会費／次年度学割年会費を基本料金として表示する</td></tr>
+</tbody></table></div>
+<p>会報送付optは今年度の用途もあるため、単純に参照を次年度へ置換しない。本人分の<code>年会費額</code>は別途渡されており、オプション文の基本料金表示の不整合が直ちに本人分請求額の不整合を意味するわけではない。固定費の実データは未確認のため、過去の誤請求発生は断定しない。</p>
+<p>詳細は <a href="annual_fixed_fee_reference_issues_20261014.md">年間固定費・年度参照の不整合</a> を参照。</p>
+<h2 id="section-8">8. 未決事項と確認待ち</h2>
+<ol>
+<li>紹介割引と既入金・繰越金の併用。余剰額の翌年度繰越、返金、家族・オプション費への充当可否は事務局検討待ち。</li>
+<li>紹介割引の辞退を年度単位でどう記録し、いつ確認するか。既存の紹介1件ごとの辞退欄との対応。</li>
+<li>紹介実績の日付フィールドと集計条件。成立時点は入金＝入会と確認済みだが、利用日時・入会完了日時・入金日のどれを正式な判定元にするかは未確定。利用状態「発行済み」の実際の保存値・更新経路も確認する。</li>
+<li>2027年分の初回割引に対する制度開始日の扱い、22歳以下の割引単価、金額端数の処理。</li>
+<li>入会月の基準日、14日／15日境界への統一、22歳から23歳になる場合の資格期限・端数月の扱い。</li>
+<li>紹介割引で年会費が免除された月・年を、既入金だけに依存する会員資格判定や会報発送判定にどう反映するか。</li>
+<li>年間固定費の2026年次年度欄と2027年今年度欄の実値の一致、年度keyの重複・欠落の有無。</li>
+<li>現在の実務における請求・督促対象の検索方法、会報オプション免除の既存例外、備忘録に残るワークフローの本文。</li>
+</ol>
+<h2 id="section-9">9. 次の担当者が進める順序</h2>
+<ol>
+<li>この引き継ぎと年間固定費の別紙を読み、DDRの作成日時を再確認する。新しいDDRがあれば古い行番号や定義をそのまま使わない。</li>
+<li>上記の確定事項と未決事項を区別し、事務局の回答を反映する。繰越案を決定済みとして実装しない。</li>
+<li>実際に使われているスクリプト・ボタン・TOを追う。旧版の定義が残るだけで現役と決めつけない。</li>
+<li>年間固定費の参照修正を具体化する。単純なフィールド名置換で今年度処理を壊さない。</li>
+<li>紹介集計、本人年会費、請求総額、資格期限、請求／督促対象の計算を整合させる。</li>
+<li>入会日の14日／15日、年末、22歳／23歳、紹介0・1・12・13人、割引辞退、既入金超過、本人0円＋オプションあり、メールなし、CSS不能などの代表例で確認する。</li>
+<li>ユーザーとの合意後に必要な範囲の変更を行う。DDRは設計レポートであり、XMLを編集してもFileMaker本体の修正にはならない。</li>
+</ol>
+<h2 id="section-10">10. 引き継ぎ時の留意事項</h2>
+<ul>
+<li>ユーザーはまず意思疎通と理解を重視している。仕様の意味が変わる判断は確認する。</li>
+<li>変更は必要最小限とし、関係のないコード・定義・旧版を整理目的で削除しない。</li>
+<li>「紹介コードの利用状態＝発行済み」はユーザーの明示表現。名称の印象だけで別の値に直さない。</li>
+<li>「開放」「口座不理解」「特速・即速」は会話の文脈上、それぞれ会報・口座振替・督促として読んだ。「次年度分の入会金」は次年度充当済みの年会費と解釈したため、金銭区分を実装する際は確認する。</li>
+<li>調査結果はDDR上の定義を示すもので、実際の料金、会員、入金、送信結果を検証したものではない。</li>
+<li>この成果物の作成以外、元のDDR・FileMaker・外部サービスへの書き込みは行っていない。</li>
+</ul>
+<h2 id="section-11">11. 成果物と参照位置</h2>
+<ul>
+<li><a href="handoff_billing_20261014.html">HTML版引き継ぎ</a></li>
+<li><a href="annual_fixed_fee_reference_issues_20261014.md">年間固定費・年度参照の不整合（Markdown）</a></li>
+<li>本書：<code>handoff_billing_20261014.md</code></li>
+</ul>
+<p>以下はUTF-16をデコードした2026年10月13日版 <code>JFA_Data_fmp12.xml</code> の行番号。更新で変わるため、名前・IDを併用して特定する。</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">定義</th><th scope="col">ID</th><th scope="col">行番号</th></tr></thead><tbody>
+<tr><td>対象請求書作成2026</td><td>スクリプト248</td><td>296443</td></tr>
+<tr><td>請求書作成2026</td><td>スクリプト251</td><td>295352</td></tr>
+<tr><td>会員履歴登録</td><td>スクリプト136</td><td>291403</td></tr>
+<tr><td>新請求パターン生成</td><td>スクリプト245</td><td>298501</td></tr>
+<tr><td>新請求パターン更新</td><td>スクリプト246</td><td>298803</td></tr>
+<tr><td>次年度請求額_New</td><td>会員フィールド181</td><td>3116</td></tr>
+<tr><td>基準入会日</td><td>会員フィールド222</td><td>4072</td></tr>
+<tr><td>入会月2026</td><td>会員フィールド254</td><td>4672</td></tr>
+<tr><td>会員資格有効日</td><td>会員フィールド260</td><td>4967</td></tr>
+<tr><td>紹介者数_会員毎</td><td>会員フィールド291</td><td>5837</td></tr>
+</tbody></table></div>
+<p>参照XMLのSHA-256：<code>37b9cc3640b0696295d4bdb719eee7c8f5c7d83375315011f01b20b20863f70d</code></p></main></div><footer>ローカル保存用・外部リソース不使用。本文は同名のMarkdown版と同じ内容です。</footer></body></html>
