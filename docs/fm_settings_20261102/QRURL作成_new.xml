@@ -1,0 +1,297 @@
+<fmxmlsnippet type="FMObjectList">
+  <Script includeInMenu="False" SiriShortcutVisible="False" runFullAccess="False" id="250" name="QRURL作成_new">
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>2026-11-02: 年会費請求詳細の現在の対象レコードに限定。2027年・正額・URLありのみ。</Text>
+    </Step>
+    <Step enable="True" id="86" name="エラー処理">
+      <Set state="True" />
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>Get ( レイアウトテーブル名 ) ≠ "年会費請求詳細" or Get ( 対象レコード数 ) = 0</Calculation>
+    </Step>
+    <Step enable="True" id="87" name="カスタムダイアログを表示">
+      <Title>
+        <Calculation>"QR生成対象を確認"</Calculation>
+      </Title>
+      <Message>
+        <Calculation>"年会費請求詳細の一覧で対象パターンを絞り込んでから実行してください。"</Calculation>
+      </Message>
+      <Buttons>
+        <Button CommitState="True">
+          <Calculation>"OK"</Calculation>
+        </Button>
+        <Button CommitState="False" />
+        <Button CommitState="False" />
+      </Buttons>
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>""</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="87" name="カスタムダイアログを表示">
+      <Title>
+        <Calculation>"QR生成"</Calculation>
+      </Title>
+      <Message>
+        <Calculation>"現在の対象 " &amp; Get ( 対象レコード数 ) &amp; "件から、2027年・正額・URL設定済みのパターンをQR化します。¶既存QRも更新します。"</Calculation>
+      </Message>
+      <Buttons>
+        <Button CommitState="True">
+          <Calculation>"実行"</Calculation>
+        </Button>
+        <Button CommitState="False">
+          <Calculation>"キャンセル"</Calculation>
+        </Button>
+        <Button CommitState="False" />
+      </Buttons>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>Get ( 最終メッセージ選択 ) ≠ 1</Calculation>
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>""</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>0</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$success</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>0</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$skip</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>0</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$error</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>""</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$failed</Name>
+    </Step>
+    <Step enable="True" id="16" name="レコード/検索条件/ページへ移動">
+      <NoInteract state="False" />
+      <RowPageLocation value="First" />
+    </Step>
+    <Step enable="True" id="71" name="Loop" />
+    <Step enable="True" id="68" name="If">
+      <Calculation>年会費請求詳細::年度 = 2027 and 年会費請求詳細::年会費額 ≥ 0 and 年会費請求詳細::請求金額合計 &gt; 0 and not IsEmpty ( 年会費請求詳細::SQ_url )</Calculation>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>"file:DBQR/" &amp; 年会費請求詳細::請求パターンID &amp; "_"
+ &amp; GetAsText ( Right ( "00" &amp; Hour ( Get ( 時刻 ) ) ; 2 ) ) &amp;  GetAsText ( Right ( "00" &amp; Minute ( Get ( 時刻 ) ) ; 2 ) ) &amp; GetAsText ( Right ( "00" &amp; Seconds ( Get ( 時刻 ) ) ; 2 ) ) &amp; ".png"</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$QRfile_path</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>"https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=" &amp; GetAsURLEncoded ( 年会費請求詳細::SQ_url )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$QR_code</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>""</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$image</Name>
+    </Step>
+    <Step enable="True" id="160" name="URL から挿入">
+      <NoInteract state="True" />
+      <DontEncodeURL state="True" />
+      <SelectAll state="True" />
+      <VerifySSLCertificates state="True" />
+      <Calculation>$QR_code</Calculation>
+      <Field>$image</Field>
+      <CURLOptions>
+        <Calculation>"--fail --max-time 30 --FM-return-container-variable"</Calculation>
+      </CURLOptions>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Get ( 最終エラー )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$err</Name>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>$err = 0 and not IsEmpty ( $image ) and GetAsNumber ( GetContainerAttribute ( $image ; "fileSize" ) ) &gt; 0</Calculation>
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$image</Calculation>
+      <Field table="年会費請求詳細" id="32" name="QR_URL" />
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Get ( 最終エラー )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$err</Name>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>$err = 0</Calculation>
+    </Step>
+    <Step enable="True" id="132" name="フィールド内容のエクスポート">
+      <CreateDirectories state="True" />
+      <AutoOpen state="False" />
+      <CreateEmail state="False" />
+      <UniversalPathList>$QRfile_path</UniversalPathList>
+      <Field table="年会費請求詳細" id="32" name="QR_URL" />
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Get ( 最終エラー )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$err</Name>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>$err = 0</Calculation>
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$QRfile_path</Calculation>
+      <Field table="年会費請求詳細" id="33" name="QR_file_path" />
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Get ( 最終エラー )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$err</Name>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="68" name="If">
+      <Calculation>$err = 0</Calculation>
+    </Step>
+    <Step enable="True" id="75" name="レコード/検索条件確定">
+      <NoInteract state="True" />
+      <Option state="False" />
+      <ESSForceCommit state="False" />
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Get ( 最終エラー )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$err</Name>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="69" name="Else" />
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>If ( $err = 0 ; -1 ; $err )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$err</Name>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="68" name="If">
+      <Calculation>$err = 0</Calculation>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>$success + 1</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$success</Name>
+    </Step>
+    <Step enable="True" id="69" name="Else" />
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>$error + 1</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$error</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>List ( $failed ; 年会費請求詳細::請求パターンID &amp; " (" &amp; $err &amp; ")" )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$failed</Name>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="69" name="Else" />
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>$skip + 1</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$skip</Name>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="16" name="レコード/検索条件/ページへ移動">
+      <NoInteract state="False" />
+      <Exit state="True" />
+      <RowPageLocation value="Next" />
+    </Step>
+    <Step enable="True" id="73" name="End Loop" />
+    <Step enable="True" id="87" name="カスタムダイアログを表示">
+      <Title>
+        <Calculation>"QR生成結果"</Calculation>
+      </Title>
+      <Message>
+        <Calculation>"生成: " &amp; $success &amp; "件¶対象外: " &amp; $skip &amp; "件¶要確認: " &amp; $error &amp; "件¶" &amp; $failed</Calculation>
+      </Message>
+      <Buttons>
+        <Button CommitState="True">
+          <Calculation>"OK"</Calculation>
+        </Button>
+        <Button CommitState="False" />
+        <Button CommitState="False" />
+      </Buttons>
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>JSONSetElement ( "" ; [ "生成" ; $success ; JSONNumber ] ; [ "対象外" ; $skip ; JSONNumber ] ; [ "要確認" ; $error ; JSONNumber ] ; [ "要確認ID" ; $failed ; JSONString ] )</Calculation>
+    </Step>
+  </Script>
+</fmxmlsnippet>

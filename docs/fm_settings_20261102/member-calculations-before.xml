@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fmxmlsnippet type="FMObjectList">
+  <Field id="252" dataType="Number" fieldType="Calculated" name="請求opt_No">
+    <Calculation table="Association_members_201905">家族会員数 + If ( 次年度22歳以下 = 22 ; 4 ; 0 ) + If ( not IsEmpty ( FL教室ID ) ; 8 ; 0 ) + If ( 会報送付opt &gt; 0 ; 16 ; 0 ) + If ( 海外会報発送費 &gt; 0 ; 32 ; 0 )</Calculation>
+    <Comment />
+    <AutoEnter alwaysEvaluate="False" />
+    <Storage storeCalculationResults="False" indexLanguage="Japanese" global="False" maxRepetition="1" />
+  </Field>
+  <Field id="293" dataType="Number" fieldType="Calculated" name="次年度紹介割引">
+    <Calculation table="Association_members_201905">次年度基本年会費 / 12 * 紹介者数_会員毎</Calculation>
+    <Comment>紹介者すうに応じた次年度の年会費割引額</Comment>
+    <AutoEnter alwaysEvaluate="False" />
+    <Storage storeCalculationResults="False" indexLanguage="Japanese" global="False" maxRepetition="1" />
+  </Field>
+</fmxmlsnippet>

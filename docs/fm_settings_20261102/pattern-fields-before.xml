@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fmxmlsnippet type="FMObjectList">
+  <Field id="28" dataType="Text" fieldType="Calculated" name="r教室文">
+    <Calculation table="年会費請求詳細">" フルート教室検索維持費　　　　    ¥" &amp; 本年度固定費::次年度教室年間維持費</Calculation>
+    <Comment />
+    <AutoEnter alwaysEvaluate="False" />
+    <Storage storeCalculationResults="False" indexLanguage="Japanese" global="False" maxRepetition="1" />
+  </Field>
+  <Field id="37" dataType="Number" fieldType="Calculated" name="教室維持費">
+    <Calculation table="年会費請求詳細">教室フラグ * 本年度固定費::次年度教室年間維持費</Calculation>
+    <Comment />
+    <AutoEnter alwaysEvaluate="False" />
+    <Storage storeCalculationResults="False" indexLanguage="Japanese" global="False" maxRepetition="1" />
+  </Field>
+  <Field id="42" dataType="Text" fieldType="Calculated" name="オプション文">
+    <Calculation table="年会費請求詳細">If ( 年齢22歳以下 = 1 ; " 22歳以下基本年会費　（¥" &amp; 本年度固定費::次年度学割年会費 &amp; "）¶ 　　次年度請求額　　　　　　　　　¥" &amp; 年会費額 ; " 23歳以上年会費　（¥" &amp; 本年度固定費::次年度年会費 &amp; "）¶ 　　次年度請求額　　　　　　　　　¥" &amp; 年会費額 )
+&amp; If ( 家族会員数 = 1 ; "¶" &amp; r家族1文 ; "" )
+&amp; If ( 家族会員数 = 2 ; "¶" &amp; r家族2文 ; "" )
+&amp; If ( 教室フラグ = 1 ; "¶" &amp; r教室文 ; "" )
+&amp; If ( 会報optフラグ = 1 ; "¶" &amp; r会報文 ; "" )
+&amp; If ( 会報海外フラグ = 1 ; "¶" &amp; r海外発送文 ; "" )</Calculation>
+    <Comment />
+    <AutoEnter alwaysEvaluate="False" />
+    <Storage storeCalculationResults="False" indexLanguage="Japanese" global="False" maxRepetition="1" />
+  </Field>
+</fmxmlsnippet>

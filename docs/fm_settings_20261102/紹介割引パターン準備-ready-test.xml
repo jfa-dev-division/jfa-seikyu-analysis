@@ -1,0 +1,304 @@
+<fmxmlsnippet type="FMObjectList">
+  <Script includeInMenu="False" SiriShortcutVisible="False" runFullAccess="False" id="263" name="紹介割引パターン準備">
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>2027年・既納入0円のURL入力用パターンを準備。通常48＋紹介割引576＝624候補。会員・URL・QRは更新しない。</Text>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>ExecuteSQL ( "SELECT \"今年度年会費\", \"今年度学割年会費\", \"今年度家族会員年会費\", \"今年度教室年間維持費\", \"今年度会報購読opt費\", \"今年度海外発送費\" FROM \"年間固定費\" WHERE \"年度key\" = ?" ; Char ( 9 ) ; "¶" ; 2027 )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$fees</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>ExecuteSQL ( "SELECT \"次年度年会費\", \"次年度学割年会費\", \"次年度家族会員年会費\", \"次年度教室年間維持費\", \"次年度会報購読opt費\", \"次年度海外発送費\" FROM \"年間固定費\" WHERE \"年度key\" = ?" ; Char ( 9 ) ; "¶" ; 2026 )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$previous</Name>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>Left ( $fees ; 1 ) = "?" or IsEmpty ( $fees ) or ValueCount ( $fees ) ≠ 1 or Left ( $previous ; 1 ) = "?" or IsEmpty ( $previous ) or ValueCount ( $previous ) ≠ 1</Calculation>
+    </Step>
+    <Step enable="True" id="87" name="カスタムダイアログを表示">
+      <Title>
+        <Calculation>"固定費を確認"</Calculation>
+      </Title>
+      <Message>
+        <Calculation>"2026年・2027年の固定費が各1件必要です。パターンは生成していません。"</Calculation>
+      </Message>
+      <Buttons>
+        <Button CommitState="True">
+          <Calculation>"OK"</Calculation>
+        </Button>
+        <Button CommitState="False" />
+        <Button CommitState="False" />
+      </Buttons>
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>""</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="68" name="If">
+      <Calculation>IsEmpty ( GetValue ( Substitute ( $fees ; Char ( 9 ) ; "¶" ) ; 1 ) ) or IsEmpty ( GetValue ( Substitute ( $previous ; Char ( 9 ) ; "¶" ) ; 1 ) ) or GetAsNumber ( GetValue ( Substitute ( $fees ; Char ( 9 ) ; "¶" ) ; 1 ) ) ≠ GetAsNumber ( GetValue ( Substitute ( $previous ; Char ( 9 ) ; "¶" ) ; 1 ) ) or IsEmpty ( GetValue ( Substitute ( $fees ; Char ( 9 ) ; "¶" ) ; 2 ) ) or IsEmpty ( GetValue ( Substitute ( $previous ; Char ( 9 ) ; "¶" ) ; 2 ) ) or GetAsNumber ( GetValue ( Substitute ( $fees ; Char ( 9 ) ; "¶" ) ; 2 ) ) ≠ GetAsNumber ( GetValue ( Substitute ( $previous ; Char ( 9 ) ; "¶" ) ; 2 ) ) or IsEmpty ( GetValue ( Substitute ( $fees ; Char ( 9 ) ; "¶" ) ; 3 ) ) or IsEmpty ( GetValue ( Substitute ( $previous ; Char ( 9 ) ; "¶" ) ; 3 ) ) or GetAsNumber ( GetValue ( Substitute ( $fees ; Char ( 9 ) ; "¶" ) ; 3 ) ) ≠ GetAsNumber ( GetValue ( Substitute ( $previous ; Char ( 9 ) ; "¶" ) ; 3 ) ) or IsEmpty ( GetValue ( Substitute ( $fees ; Char ( 9 ) ; "¶" ) ; 4 ) ) or IsEmpty ( GetValue ( Substitute ( $previous ; Char ( 9 ) ; "¶" ) ; 4 ) ) or GetAsNumber ( GetValue ( Substitute ( $fees ; Char ( 9 ) ; "¶" ) ; 4 ) ) ≠ GetAsNumber ( GetValue ( Substitute ( $previous ; Char ( 9 ) ; "¶" ) ; 4 ) ) or IsEmpty ( GetValue ( Substitute ( $fees ; Char ( 9 ) ; "¶" ) ; 5 ) ) or IsEmpty ( GetValue ( Substitute ( $previous ; Char ( 9 ) ; "¶" ) ; 5 ) ) or GetAsNumber ( GetValue ( Substitute ( $fees ; Char ( 9 ) ; "¶" ) ; 5 ) ) ≠ GetAsNumber ( GetValue ( Substitute ( $previous ; Char ( 9 ) ; "¶" ) ; 5 ) ) or IsEmpty ( GetValue ( Substitute ( $fees ; Char ( 9 ) ; "¶" ) ; 6 ) ) or IsEmpty ( GetValue ( Substitute ( $previous ; Char ( 9 ) ; "¶" ) ; 6 ) ) or GetAsNumber ( GetValue ( Substitute ( $fees ; Char ( 9 ) ; "¶" ) ; 6 ) ) ≠ GetAsNumber ( GetValue ( Substitute ( $previous ; Char ( 9 ) ; "¶" ) ; 6 ) )</Calculation>
+    </Step>
+    <Step enable="True" id="87" name="カスタムダイアログを表示">
+      <Title>
+        <Calculation>"固定費を確認"</Calculation>
+      </Title>
+      <Message>
+        <Calculation>"2026年の次年度料金と2027年の今年度料金に空欄または不一致があります。パターンは生成していません。"</Calculation>
+      </Message>
+      <Buttons>
+        <Button CommitState="True">
+          <Calculation>"OK"</Calculation>
+        </Button>
+        <Button CommitState="False" />
+        <Button CommitState="False" />
+      </Buttons>
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>""</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>GetAsNumber ( GetValue ( Substitute ( $fees ; Char ( 9 ) ; "¶" ) ; 1 ) )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$normal</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>GetAsNumber ( GetValue ( Substitute ( $fees ; Char ( 9 ) ; "¶" ) ; 2 ) )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$young</Name>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>$normal ≤ 0 or $young ≤ 0 or Mod ( $normal ; 12 ) ≠ 0 or Mod ( $young ; 12 ) ≠ 0</Calculation>
+    </Step>
+    <Step enable="True" id="87" name="カスタムダイアログを表示">
+      <Title>
+        <Calculation>"基本年会費を確認"</Calculation>
+      </Title>
+      <Message>
+        <Calculation>"基本年会費は正の金額で、12分の1が円単位になる必要があります。"</Calculation>
+      </Message>
+      <Buttons>
+        <Button CommitState="True">
+          <Calculation>"OK"</Calculation>
+        </Button>
+        <Button CommitState="False" />
+        <Button CommitState="False" />
+      </Buttons>
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>""</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="87" name="カスタムダイアログを表示">
+      <Title>
+        <Calculation>"紹介割引パターン準備"</Calculation>
+      </Title>
+      <Message>
+        <Calculation>"2027年のURL入力用パターンを624候補（通常48・紹介割引576）、照合・生成します。既存分は再利用します。¶会員への適用、Square登録、QR生成、請求発行は行いません。"</Calculation>
+      </Message>
+      <Buttons>
+        <Button CommitState="True">
+          <Calculation>"実行"</Calculation>
+        </Button>
+        <Button CommitState="False">
+          <Calculation>"キャンセル"</Calculation>
+        </Button>
+        <Button CommitState="False" />
+      </Buttons>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>Get ( 最終メッセージ選択 ) ≠ 1</Calculation>
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>""</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>0</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$success</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>0</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$error</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>""</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$failed</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>0</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$opt</Name>
+    </Step>
+    <Step enable="True" id="71" name="Loop">
+      <FlushType value="Always" />
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>Mod ( $opt ; 4 ) ≤ 2</Calculation>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>If ( Mod ( Int ( $opt / 4 ) ; 2 ) = 1 ; $young ; $normal )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$base</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>If ( $opt ≥ 64 ; 1 ; 0 )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$n</Name>
+    </Step>
+    <Step enable="True" id="71" name="Loop">
+      <FlushType value="Always" />
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>$base / 12 * $n</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$discount</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>JSONSetElement ( "" ; [ "年度" ; 2027 ; JSONNumber ] ; [ "年会費額" ; $base - $discount ; JSONNumber ] ; [ "opt_code" ; $opt ; JSONNumber ] ; [ "割引適用紹介人数" ; $n ; JSONNumber ] ; [ "紹介割引額" ; $discount ; JSONNumber ] )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$param</Name>
+    </Step>
+    <Step enable="True" id="1" name="スクリプト実行">
+      <Calculation>$param</Calculation>
+      <Script id="245" name="新請求パターン生成" />
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Get ( スクリプトの結果 )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$ret</Name>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>not IsEmpty ( $ret )</Calculation>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>$success + 1</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$success</Name>
+    </Step>
+    <Step enable="True" id="69" name="Else" />
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>$error + 1</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$error</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>List ( $failed ; "opt=" &amp; $opt &amp; "、紹介=" &amp; $n )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$failed</Name>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>$n + 1</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$n</Name>
+    </Step>
+    <Step enable="True" id="72" name="Exit Loop If">
+      <Calculation>$n &gt; If ( $opt ≥ 64 ; 12 ; 0 )</Calculation>
+    </Step>
+    <Step enable="True" id="73" name="End Loop" />
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>$opt + 1</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$opt</Name>
+    </Step>
+    <Step enable="True" id="72" name="Exit Loop If">
+      <Calculation>$opt &gt; 126</Calculation>
+    </Step>
+    <Step enable="True" id="73" name="End Loop" />
+    <Step enable="True" id="87" name="カスタムダイアログを表示">
+      <Title>
+        <Calculation>"紹介割引パターン準備"</Calculation>
+      </Title>
+      <Message>
+        <Calculation>"照合・生成成功: " &amp; $success &amp; "件¶要確認: " &amp; $error &amp; "件¶" &amp; $failed</Calculation>
+      </Message>
+      <Buttons>
+        <Button CommitState="True">
+          <Calculation>"OK"</Calculation>
+        </Button>
+        <Button CommitState="False" />
+        <Button CommitState="False" />
+      </Buttons>
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>JSONSetElement ( "" ; [ "成功" ; $success ; JSONNumber ] ; [ "要確認" ; $error ; JSONNumber ] ; [ "要確認条件" ; $failed ; JSONString ] )</Calculation>
+    </Step>
+  </Script>
+</fmxmlsnippet>

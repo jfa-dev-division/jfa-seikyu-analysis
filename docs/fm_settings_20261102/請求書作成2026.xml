@@ -1,0 +1,618 @@
+<fmxmlsnippet type="FMObjectList">
+  <Script includeInMenu="True" SiriShortcutVisible="False" runFullAccess="False" id="251" name="請求書作成2026">
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>=================================</Text>
+    </Step>
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>請求書生成 2026年以降版</Text>
+    </Step>
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>=================================</Text>
+    </Step>
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>1. パラメータ受取</Text>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Get ( レイアウト番号 )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$ly</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Get ( スクリプト引数 )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$params</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>JSONGetElement ( $params ; "会員番号" )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$mno</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>JSONGetElement ( $params ; "請求年" )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$year</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>JSONGetElement ( $params ; "請求コード" )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$code</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>JSONGetElement ( $params ; "請求手段" )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$method</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>JSONGetElement ( $params ; "請求" )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$type</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>JSONGetElement ( $params ; "請求日" )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$date</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>GetAsNumber ( JSONGetElement ( $params ; "紹介割引額" ) )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$紹介割引額</Name>
+    </Step>
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>2026-11-02: 2027年の会員・パターンを照合。負額/0円/不一致は請求書作成前に終了。</Text>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>GetAsNumber ( $year ) = 2027</Calculation>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>ExecuteSQL ( "SELECT \"gNYear\", \"次年度請求分_New\", \"請求opt_No\", \"紹介者数_会員毎\", \"次年度紹介割引\", \"次年度請求額_New\", \"請求ptrコード\" FROM \"Association_members_201905\" WHERE \"会員番号\" = ?" ; Char ( 9 ) ; "¶" ; $mno )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$member</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>ExecuteSQL ( "SELECT \"年度\", \"年会費額\", \"オプションコード\", \"割引適用紹介人数\", \"紹介割引額\", \"請求金額合計\" FROM \"年会費請求詳細\" WHERE \"請求パターンID\" = ?" ; Char ( 9 ) ; "¶" ; $code )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$pattern</Name>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>IsEmpty ( $member ) or Left ( $member ; 1 ) = "?" or ValueCount ( $member ) ≠ 1 or IsEmpty ( $pattern ) or Left ( $pattern ; 1 ) = "?" or ValueCount ( $pattern ) ≠ 1</Calculation>
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>JSONSetElement ( "" ; [ "エラーコード" ; "004" ; JSONString ] ; [ "エラー内容" ; "会員または請求パターンを一意に確認できません" ; JSONString ] )</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="68" name="If">
+      <Calculation>GetAsNumber ( GetValue ( Substitute ( $member ; Char ( 9 ) ; "¶" ) ; 2 ) ) &lt; 0</Calculation>
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>JSONSetElement ( "" ; [ "エラーコード" ; "003" ; JSONString ] ; [ "エラー内容" ; "本人残額がマイナスです。精算確認が必要です" ; JSONString ] )</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="68" name="If">
+      <Calculation>GetAsNumber ( GetValue ( Substitute ( $member ; Char ( 9 ) ; "¶" ) ; 1 ) ) ≠ 2027 or GetAsNumber ( GetValue ( Substitute ( $pattern ; Char ( 9 ) ; "¶" ) ; 1 ) ) ≠ 2027 or not Exact ( GetValue ( Substitute ( $member ; Char ( 9 ) ; "¶" ) ; 7 ) ; $code ) or GetAsNumber ( GetValue ( Substitute ( $member ; Char ( 9 ) ; "¶" ) ; 2 ) ) ≠ GetAsNumber ( GetValue ( Substitute ( $pattern ; Char ( 9 ) ; "¶" ) ; 2 ) ) or GetAsNumber ( GetValue ( Substitute ( $member ; Char ( 9 ) ; "¶" ) ; 3 ) ) ≠ GetAsNumber ( GetValue ( Substitute ( $pattern ; Char ( 9 ) ; "¶" ) ; 3 ) ) or GetAsNumber ( GetValue ( Substitute ( $member ; Char ( 9 ) ; "¶" ) ; 5 ) ) ≠ GetAsNumber ( GetValue ( Substitute ( $pattern ; Char ( 9 ) ; "¶" ) ; 5 ) ) or GetAsNumber ( GetValue ( Substitute ( $member ; Char ( 9 ) ; "¶" ) ; 6 ) ) ≠ GetAsNumber ( GetValue ( Substitute ( $pattern ; Char ( 9 ) ; "¶" ) ; 6 ) ) or If ( GetAsNumber ( GetValue ( Substitute ( $member ; Char ( 9 ) ; "¶" ) ; 5 ) ) &gt; 0 ; Min ( 12 ; Max ( 0 ; GetAsNumber ( GetValue ( Substitute ( $member ; Char ( 9 ) ; "¶" ) ; 4 ) ) ) ) ; 0 ) ≠ GetAsNumber ( GetValue ( Substitute ( $pattern ; Char ( 9 ) ; "¶" ) ; 4 ) )</Calculation>
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>JSONSetElement ( "" ; [ "エラーコード" ; "004" ; JSONString ] ; [ "エラー内容" ; "年度・本人残額・オプション・紹介人数・割引額・合計が会員とパターンで一致しません" ; JSONString ] )</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="68" name="If">
+      <Calculation>GetAsNumber ( GetValue ( Substitute ( $pattern ; Char ( 9 ) ; "¶" ) ; 6 ) ) = 0</Calculation>
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>JSONSetElement ( "" ; [ "エラーコード" ; "002" ; JSONString ] ; [ "エラー内容" ; "合計0円のため支払い不要通知の対象です。通常請求書は作成しません" ; JSONString ] )</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>GetAsNumber ( GetValue ( Substitute ( $pattern ; Char ( 9 ) ; "¶" ) ; 5 ) )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$紹介割引額</Name>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>2. レイアウト切り替え・重複チェック</Text>
+    </Step>
+    <Step enable="True" id="6" name="レイアウト切り替え">
+      <LayoutDestination value="SelectedLayout" />
+      <Layout id="159" name="請求書2026" />
+    </Step>
+    <Step enable="True" id="86" name="エラー処理">
+      <Set state="True" />
+    </Step>
+    <Step enable="True" id="22" name="検索モードに切り替え">
+      <Pause state="False" />
+      <Restore state="False" />
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$mno</Calculation>
+      <Field table="請求書" id="7" name="会員番号" />
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$date</Calculation>
+      <Field table="請求書" id="8" name="請求書作成日" />
+    </Step>
+    <Step enable="True" id="28" name="検索実行">
+      <Restore state="False" />
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Get ( 最終エラー )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$err</Name>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>not $err</Calculation>
+    </Step>
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>既に存在する</Text>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>JSONSetElement ( "" ;
+		["エラーコード" ; "001" ; JSONString ];
+		["エラー内容" ; "既に請求書が存在します" ; JSONString ]
+	)</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$result</Name>
+    </Step>
+    <Step enable="True" id="6" name="レイアウト切り替え">
+      <LayoutDestination value="OriginalLayout" />
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>$result</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>3. 請求書レコード作成</Text>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>$err ≠ 401</Calculation>
+    </Step>
+    <Step enable="True" id="6" name="レイアウト切り替え">
+      <LayoutDestination value="OriginalLayout" />
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>JSONSetElement ( "" ; [ "エラーコード" ; "005" ; JSONString ] ; [ "エラー内容" ; "既存請求書の検索に失敗しました" ; JSONString ] )</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="7" name="新規レコード/検索条件" />
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$mno</Calculation>
+      <Field table="請求書" id="7" name="会員番号" />
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$year</Calculation>
+      <Field table="請求書" id="32" name="請求年" />
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$code</Calculation>
+      <Field table="請求書" id="52" name="請求コード" />
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>年会費詳細2026::請求金額合計</Calculation>
+      <Field table="請求書" id="9" name="請求金額" />
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$method</Calculation>
+      <Field table="請求書" id="53" name="請求手段" />
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$type</Calculation>
+      <Field table="請求書" id="54" name="請求" />
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$date</Calculation>
+      <Field table="請求書" id="8" name="請求書作成日" />
+    </Step>
+    <Step enable="True" id="75" name="レコード/検索条件確定">
+      <NoInteract state="True" />
+      <Option state="False" />
+      <ESSForceCommit state="False" />
+    </Step>
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>4. メッセージ本文生成</Text>
+    </Step>
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>リレーション: 請求書Msg2026（請求年・請求手段・請求でリレーション）</Text>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>請求書Msg2026::メッセージ本文</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$msg_body</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>請求書Msg2026::件名</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$msg_title</Name>
+    </Step>
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>変数置換処理</Text>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>$msg_body</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$body</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Substitute ( $body ; "$$$$" ; 請求者名::姓名 )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$body</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Substitute ( $body ; "%%%%" ; $mno )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$body</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Substitute ( $body ; "DDDD" ; $year )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$body</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Substitute ( $body ; "XXXX" ; $year - 1 )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$body</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Substitute ( $body ; "MM" ; Month ( GetAsDate ( $date ) ) )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$body</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Substitute ( $body ; "###" ; 年会費詳細2026::請求文 )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$body</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Substitute ( $body ; "CRCRCR" ; 年会費詳細2026::SQ_url )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$body</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Substitute ( $body ; "&amp;&amp;&amp;&amp;" ; 請求書::ナマエ仮名 )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$body</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Substitute ( $body ; "{{紹介割引明細}}" ; If ( GetAsNumber ( $year ) = 2027 and GetAsNumber ( $紹介割引額 ) &gt; 0 ; "※会員紹介制度の割引を適用しました。ご紹介ありがとうございます。" ; "" ) )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$body</Name>
+    </Step>
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>5. 請求手段別にフィールド格納</Text>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>$method = "郵送" or $method = "口座振替Y"</Calculation>
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$body</Calculation>
+      <Field table="請求書" id="11" name="郵送本文" />
+    </Step>
+    <Step enable="True" id="125" name="Else If">
+      <Calculation>$method = "メール" or $method = "口座振替M"</Calculation>
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$body</Calculation>
+      <Field table="請求書" id="10" name="メール本文" />
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Substitute ( $msg_title ; "DDDD" ; $year )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$title</Name>
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$title</Calculation>
+      <Field table="請求書" id="21" name="メールタイトル" />
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>6. 戻り値JSON生成</Text>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>JSONSetElement ( "" ;
+	["請求書生成日" ; Get ( 日付 ) ; JSONString ];
+	["エラーコード" ; "000" ; JSONString ]
+)</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$result</Name>
+    </Step>
+    <Step enable="True" id="89" name="# (コメント)" />
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>7.会員履歴登録処理</Text>
+    </Step>
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>メールアドレスの有無をチェック</Text>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>IsEmpty ( メール履歴2026::email1 )</Calculation>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>"メールアドレスなし"</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$mKubun</Name>
+    </Step>
+    <Step enable="True" id="69" name="Else" />
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>"メールアドレスあり"</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$mKubun</Name>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>年会費詳細から情報取得</Text>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>If ( Exact ( 請求書::請求手段 ; "郵送" ) ; "郵便" ; 請求書::請求手段 )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$請求手段</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>請求書::請求</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$請求種別</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>""</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$説明</Name>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>Exact ( $請求手段 ; "メール" ) or Exact ( $請求手段 ; "口座振替M" )</Calculation>
+    </Step>
+    <Step enable="True" id="63" name="メールを送信">
+      <NoInteract state="False" />
+      <To UseFoundSet="False">
+        <Calculation>メール履歴2026::email1</Calculation>
+      </To>
+      <Bcc UseFoundSet="False">
+        <Calculation>"jfc_archives@japan-flutists.org"</Calculation>
+      </Bcc>
+      <Subject>
+        <Calculation>請求書::メールタイトル</Calculation>
+      </Subject>
+      <Message>
+        <Calculation>請求書::メール本文</Calculation>
+      </Message>
+      <SMTPNameDescription>
+        <Calculation>"日本フルート協会 経理"</Calculation>
+      </SMTPNameDescription>
+      <SMTPEmailAddress>
+        <Calculation>General_Mail_Ref::Mail_Address[1]</Calculation>
+      </SMTPEmailAddress>
+      <SMTPReplyAddress>
+        <Calculation>General_Mail_Ref::Mail_Address[1]</Calculation>
+      </SMTPReplyAddress>
+      <SMTPServer>
+        <Calculation>General_Mail_Ref::smtp_sakura_server[1]</Calculation>
+      </SMTPServer>
+      <SMTPPort>
+        <Calculation>587</Calculation>
+      </SMTPPort>
+      <SMTPUserName>
+        <Calculation>General_Mail_Ref::Mail_Address[1]</Calculation>
+      </SMTPUserName>
+      <SMTPPassword>
+        <Calculation>General_Mail_Ref::Mail_passwd[1]</Calculation>
+      </SMTPPassword>
+      <MultipleEmails state="False" />
+      <SendViaSMTP state="True" />
+      <SendViaOAuthAuthentication state="False" />
+      <SMTPEncryptionType type="SMTPEncryptionNone" />
+      <SMTPAuthenticationType type="SMTPAuthenticationPlain" />
+      <OAuthProvider type="OAuthProviderGoogle" />
+    </Step>
+    <Step enable="False" id="63" name="メールを送信">
+      <NoInteract state="False" />
+      <To UseFoundSet="False">
+        <Calculation>"redacted@example.invalid"</Calculation>
+      </To>
+      <Bcc UseFoundSet="False">
+        <Calculation>"jfc_archives@japan-flutists.org"</Calculation>
+      </Bcc>
+      <Subject>
+        <Calculation>請求書::メールタイトル</Calculation>
+      </Subject>
+      <Message>
+        <Calculation>請求書::メール本文</Calculation>
+      </Message>
+      <SMTPNameDescription>
+        <Calculation>"日本フルート協会 経理"</Calculation>
+      </SMTPNameDescription>
+      <SMTPEmailAddress>
+        <Calculation>General_Mail_Ref::Mail_Address[1]</Calculation>
+      </SMTPEmailAddress>
+      <SMTPReplyAddress>
+        <Calculation>General_Mail_Ref::Mail_Address[1]</Calculation>
+      </SMTPReplyAddress>
+      <SMTPServer>
+        <Calculation>General_Mail_Ref::smtp_sakura_server[1]</Calculation>
+      </SMTPServer>
+      <SMTPPort>
+        <Calculation>587</Calculation>
+      </SMTPPort>
+      <SMTPUserName>
+        <Calculation>General_Mail_Ref::Mail_Address[1]</Calculation>
+      </SMTPUserName>
+      <SMTPPassword>
+        <Calculation>General_Mail_Ref::Mail_passwd[1]</Calculation>
+      </SMTPPassword>
+      <MultipleEmails state="False" />
+      <SendViaSMTP state="True" />
+      <SendViaOAuthAuthentication state="False" />
+      <SMTPEncryptionType type="SMTPEncryptionNone" />
+      <SMTPAuthenticationType type="SMTPAuthenticationPlain" />
+      <OAuthProvider type="OAuthProviderGoogle" />
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>"送信済"</Calculation>
+      <Field table="請求書" id="12" name="ステータス" />
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>$mno &amp; "¶" &amp;
+	GetAsText ( $date ) &amp; "¶" &amp;
+	"請求（" &amp; $請求手段 &amp; "）¶" &amp;
+	$請求種別 &amp; "、" &amp; $mKubun</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$Parm</Name>
+    </Step>
+    <Step enable="True" id="1" name="スクリプト実行">
+      <Calculation>$Parm</Calculation>
+      <Script id="136" name="会員履歴登録" />
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>JSONSetElement ( "" ;
+	["請求書生成日" ; Get ( 日付 ) ; JSONString ];
+	["エラーコード" ; "000" ; JSONString ]
+)</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$Parm</Name>
+    </Step>
+    <Step enable="True" id="6" name="レイアウト切り替え">
+      <LayoutDestination value="LayoutNumberByCalc" />
+      <Layout id="0" name="">
+        <Calculation>$ly</Calculation>
+      </Layout>
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>$result</Calculation>
+    </Step>
+    <Step enable="True" id="89" name="# (コメント)" />
+  </Script>
+</fmxmlsnippet>

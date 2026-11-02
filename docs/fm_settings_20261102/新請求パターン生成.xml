@@ -1,0 +1,235 @@
+<fmxmlsnippet type="FMObjectList">
+  <Script includeInMenu="False" SiriShortcutVisible="False" runFullAccess="False" id="245" name="新請求パターン生成">
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>2026-11-02: 年度・本人残額・opt・紹介人数・割引額で照合。0円を許可し、負額は生成しない。</Text>
+    </Step>
+    <Step enable="True" id="86" name="エラー処理">
+      <Set state="True" />
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Get ( スクリプト引数 )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$param</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>GetAsNumber ( JSONGetElement ( $param ; "年度" ) )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$gYear</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>GetAsNumber ( JSONGetElement ( $param ; "年会費額" ) )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$annual</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>GetAsNumber ( JSONGetElement ( $param ; "opt_code" ) )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$opt_code</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>GetAsNumber ( JSONGetElement ( $param ; "割引適用紹介人数" ) )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$count</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>GetAsNumber ( JSONGetElement ( $param ; "紹介割引額" ) )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$discount</Name>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>$gYear &lt; 1 or $annual &lt; 0 or $opt_code &lt; 0 or $opt_code &gt; 127 or $opt_code ≠ Int ( $opt_code ) or Mod ( $opt_code ; 4 ) &gt; 2 or $count &lt; 0 or $count &gt; 12 or $count ≠ Int ( $count ) or $discount &lt; 0</Calculation>
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>""</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="68" name="If">
+      <Calculation>( $opt_code ≥ 64 and ( $gYear ≠ 2027 or $count = 0 or $discount = 0 ) ) or ( $opt_code &lt; 64 and ( $count ≠ 0 or $discount ≠ 0 ) )</Calculation>
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>""</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="6" name="レイアウト切り替え">
+      <LayoutDestination value="SelectedLayout" />
+      <Layout id="158" name="年会費請求詳細" />
+    </Step>
+    <Step enable="True" id="22" name="検索モードに切り替え">
+      <Pause state="False" />
+      <Restore state="False" />
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$gYear</Calculation>
+      <Field table="年会費請求詳細" id="7" name="年度" />
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$annual</Calculation>
+      <Field table="年会費請求詳細" id="8" name="年会費額" />
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$opt_code</Calculation>
+      <Field table="年会費請求詳細" id="9" name="オプションコード" />
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>$opt_code ≥ 64</Calculation>
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$count</Calculation>
+      <Field table="年会費請求詳細" id="45" name="割引適用紹介人数" />
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$discount</Calculation>
+      <Field table="年会費請求詳細" id="46" name="紹介割引額" />
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="28" name="検索実行">
+      <Restore state="False" />
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Get ( 最終エラー )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$err</Name>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>$err ≠ 0 and $err ≠ 401</Calculation>
+    </Step>
+    <Step enable="True" id="6" name="レイアウト切り替え">
+      <LayoutDestination value="OriginalLayout" />
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>""</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="68" name="If">
+      <Calculation>$err = 0 and Get ( 対象レコード数 ) ≠ 1</Calculation>
+    </Step>
+    <Step enable="True" id="6" name="レイアウト切り替え">
+      <LayoutDestination value="OriginalLayout" />
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>""</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="68" name="If">
+      <Calculation>$err = 401</Calculation>
+    </Step>
+    <Step enable="True" id="7" name="新規レコード/検索条件" />
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Get ( 最終エラー )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$err</Name>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>$err ≠ 0</Calculation>
+    </Step>
+    <Step enable="True" id="6" name="レイアウト切り替え">
+      <LayoutDestination value="OriginalLayout" />
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>""</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$gYear</Calculation>
+      <Field table="年会費請求詳細" id="7" name="年度" />
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$annual</Calculation>
+      <Field table="年会費請求詳細" id="8" name="年会費額" />
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$opt_code</Calculation>
+      <Field table="年会費請求詳細" id="9" name="オプションコード" />
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$count</Calculation>
+      <Field table="年会費請求詳細" id="45" name="割引適用紹介人数" />
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$discount</Calculation>
+      <Field table="年会費請求詳細" id="46" name="紹介割引額" />
+    </Step>
+    <Step enable="True" id="75" name="レコード/検索条件確定">
+      <NoInteract state="True" />
+      <Option state="False" />
+      <ESSForceCommit state="False" />
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Get ( 最終エラー )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$err</Name>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>$err ≠ 0</Calculation>
+    </Step>
+    <Step enable="True" id="6" name="レイアウト切り替え">
+      <LayoutDestination value="OriginalLayout" />
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>""</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="68" name="If">
+      <Calculation>年会費請求詳細::年度 ≠ $gYear or 年会費請求詳細::年会費額 ≠ $annual or 年会費請求詳細::オプションコード ≠ $opt_code or GetAsNumber ( 年会費請求詳細::割引適用紹介人数 ) ≠ $count or GetAsNumber ( 年会費請求詳細::紹介割引額 ) ≠ $discount</Calculation>
+    </Step>
+    <Step enable="True" id="6" name="レイアウト切り替え">
+      <LayoutDestination value="OriginalLayout" />
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>""</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>年会費請求詳細::請求パターンID</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$ret</Name>
+    </Step>
+    <Step enable="True" id="6" name="レイアウト切り替え">
+      <LayoutDestination value="OriginalLayout" />
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>$ret</Calculation>
+    </Step>
+  </Script>
+</fmxmlsnippet>

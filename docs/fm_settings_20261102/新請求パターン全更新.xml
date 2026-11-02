@@ -1,0 +1,190 @@
+<fmxmlsnippet type="FMObjectList">
+  <Script includeInMenu="True" SiriShortcutVisible="False" runFullAccess="False" id="247" name="新請求パターン全更新">
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</Text>
+    </Step>
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>スクリプト名：請求パターン全更新</Text>
+    </Step>
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>説明：対象会員をスキャンして請求パターンを生成（対照会員は事前に検索しておくこと）</Text>
+    </Step>
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>作成日：2025/11/07</Text>
+    </Step>
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</Text>
+    </Step>
+    <Step enable="True" id="89" name="# (コメント)" />
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>========== 事前準備 ==========</Text>
+    </Step>
+    <Step enable="True" id="87" name="カスタムダイアログを表示">
+      <Title>
+        <Calculation>"請求パターン生成"</Calculation>
+      </Title>
+      <Message>
+        <Calculation>Association_members_201905::gNYear &amp; "年度の現在の対象会員 " &amp; Get ( 対象レコード数 ) &amp; "件の請求パターンを更新します。¶標準パターンの事前準備には使用しません。"</Calculation>
+      </Message>
+      <Buttons>
+        <Button CommitState="True">
+          <Calculation>"実行"</Calculation>
+        </Button>
+        <Button CommitState="False">
+          <Calculation>"キャンセル"</Calculation>
+        </Button>
+        <Button CommitState="False" />
+      </Buttons>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>Get(最終メッセージ選択) = 2</Calculation>
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了" />
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="6" name="レイアウト切り替え">
+      <LayoutDestination value="SelectedLayout" />
+      <Layout id="114" name="会員情報_202108" />
+    </Step>
+    <Step enable="True" id="89" name="# (コメント)" />
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>========== 事前準備 ==========</Text>
+    </Step>
+    <Step enable="False" id="86" name="エラー処理">
+      <Set state="True" />
+    </Step>
+    <Step enable="False" id="22" name="検索モードに切り替え">
+      <Pause state="False" />
+      <Restore state="False" />
+    </Step>
+    <Step enable="False" id="76" name="フィールド設定">
+      <Calculation>"正会員"</Calculation>
+      <Field table="Association_members_201905" id="28" name="状態" />
+    </Step>
+    <Step enable="False" id="28" name="検索実行">
+      <Restore state="False" />
+    </Step>
+    <Step enable="True" id="89" name="# (コメント)" />
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>========== 新請求パターン生成スクリプト呼出 ==========</Text>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>0</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$success</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>0</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$error</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>""</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$failed</Name>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>Get ( 対象レコード数 ) = 0</Calculation>
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>""</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="16" name="レコード/検索条件/ページへ移動">
+      <NoInteract state="False" />
+      <RowPageLocation value="First" />
+    </Step>
+    <Step enable="True" id="71" name="Loop" />
+    <Step enable="True" id="1" name="スクリプト実行">
+      <Script id="246" name="新請求パターン更新" />
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Get ( スクリプトの結果 )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$ret</Name>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>not IsEmpty ( $ret )</Calculation>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>$success + 1</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$success</Name>
+    </Step>
+    <Step enable="True" id="69" name="Else" />
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>$error + 1</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$error</Name>
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>List ( $failed ; Association_members_201905::会員番号 )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$failed</Name>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="False" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Get(スクリプトの結果)</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$ret</Name>
+    </Step>
+    <Step enable="False" id="76" name="フィールド設定">
+      <Calculation>$ret</Calculation>
+      <Field table="年会費請求詳細" id="6" name="請求パターンID" />
+    </Step>
+    <Step enable="True" id="16" name="レコード/検索条件/ページへ移動">
+      <NoInteract state="False" />
+      <Exit state="True" />
+      <RowPageLocation value="Next" />
+    </Step>
+    <Step enable="True" id="73" name="End Loop" />
+    <Step enable="True" id="93" name="警告音" />
+    <Step enable="True" id="87" name="カスタムダイアログを表示">
+      <Title>
+        <Calculation>"請求パターン生成"</Calculation>
+      </Title>
+      <Message>
+        <Calculation>"更新成功: " &amp; $success &amp; "件¶要確認: " &amp; $error &amp; "件¶要確認会員番号:¶" &amp; $failed</Calculation>
+      </Message>
+      <Buttons>
+        <Button CommitState="True">
+          <Calculation>"OK"</Calculation>
+        </Button>
+        <Button CommitState="False" />
+        <Button CommitState="False" />
+      </Buttons>
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了" />
+  </Script>
+</fmxmlsnippet>

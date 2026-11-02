@@ -1,0 +1,84 @@
+<fmxmlsnippet type="FMObjectList">
+  <Script includeInMenu="False" SiriShortcutVisible="False" runFullAccess="False" id="246" name="新請求パターン更新">
+    <Step enable="True" id="89" name="# (コメント)">
+      <Text>2026-11-02: 紹介人数・割引額を渡す。成功したパターンIDのみ会員へ設定。</Text>
+    </Step>
+    <Step enable="True" id="86" name="エラー処理">
+      <Set state="True" />
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>Get ( レイアウトテーブル名 ) ≠ "Association_members_201905"</Calculation>
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>""</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>JSONSetElement ( "" ;
+ [ "年度" ; Association_members_201905::gNYear ; JSONNumber ] ;
+ [ "年会費額" ; Association_members_201905::次年度請求分_New ; JSONNumber ] ;
+ [ "opt_code" ; Association_members_201905::請求opt_No ; JSONNumber ] ;
+ [ "割引適用紹介人数" ; If ( Association_members_201905::請求opt_No ≥ 64 ; Min ( 12 ; Max ( 0 ; Association_members_201905::紹介者数_会員毎 ) ) ; 0 ) ; JSONNumber ] ;
+ [ "紹介割引額" ; If ( Association_members_201905::請求opt_No ≥ 64 ; Association_members_201905::次年度紹介割引 ; 0 ) ; JSONNumber ]
+)</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$param</Name>
+    </Step>
+    <Step enable="True" id="1" name="スクリプト実行">
+      <Calculation>$param</Calculation>
+      <Script id="245" name="新請求パターン生成" />
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Get ( スクリプトの結果 )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$ret</Name>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>not IsEmpty ( $ret )</Calculation>
+    </Step>
+    <Step enable="True" id="76" name="フィールド設定">
+      <Calculation>$ret</Calculation>
+      <Field table="Association_members_201905" id="253" name="請求ptrコード" />
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Get ( 最終エラー )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$err</Name>
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>$err ≠ 0</Calculation>
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>""</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="75" name="レコード/検索条件確定">
+      <NoInteract state="True" />
+      <Option state="False" />
+      <ESSForceCommit state="False" />
+    </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>Get ( 最終エラー ) ≠ 0</Calculation>
+    </Step>
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>""</Calculation>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="103" name="現在のスクリプト終了">
+      <Calculation>$ret</Calculation>
+    </Step>
+  </Script>
+</fmxmlsnippet>
