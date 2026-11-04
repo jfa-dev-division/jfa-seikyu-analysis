@@ -314,6 +314,25 @@
     <Step enable="True" id="71" name="Loop">
       <FlushType value="Always" />
     </Step>
+    <Step enable="True" id="68" name="If">
+      <Calculation>$syear = 2027</Calculation>
+    </Step>
+    <Step enable="True" id="1" name="スクリプト実行">
+      <Script id="246" name="新請求パターン更新" />
+    </Step>
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>Get ( スクリプトの結果 )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$patternResult</Name>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
+    <Step enable="True" id="68" name="If">
+      <Calculation>$syear ≠ 2027 or not IsEmpty ( $patternResult )</Calculation>
+    </Step>
     <Step enable="True" id="89" name="# (コメント)">
       <Text>JSONパラメータ作成</Text>
     </Step>
@@ -352,6 +371,17 @@
       </Repetition>
       <Name>$result</Name>
     </Step>
+    <Step enable="True" id="69" name="Else" />
+    <Step enable="True" id="141" name="変数を設定">
+      <Value>
+        <Calculation>JSONSetElement ( "" ; [ "エラーコード" ; If ( Association_members_201905::次年度請求分_New &lt; 0 ; "003" ; "004" ) ; JSONString ] ; [ "エラー内容" ; "2027年用の請求パターンを更新できませんでした" ; JSONString ] )</Calculation>
+      </Value>
+      <Repetition>
+        <Calculation>1</Calculation>
+      </Repetition>
+      <Name>$result</Name>
+    </Step>
+    <Step enable="True" id="70" name="End If" />
     <Step enable="True" id="141" name="変数を設定">
       <Value>
         <Calculation>JSONGetElement ( $result ; "エラーコード" )</Calculation>

@@ -2,6 +2,7 @@
 
 最新の本番反映範囲と検証結果は [本番追加修正の記録](../production_qr_patterns_layout_20261102.md)、再開時の注意と未着手課題は [引き継ぎ](../handoff_2027_billing_20261102.md) を参照。
 
+- `対象請求書作成2026.xml` は検索対象のパターン更新を請求前に行う90ステップの本番保存後読戻し。`対象請求書作成2026-update-before-create-test.xml` と同じ定義。[本番反映記録](../production_button_update_20261102.md)、[テスト記録](../test_postal_button_update_20261102.md) を参照。
 - QRの現行版は `QRURL作成_new-embedded-test.xml`（48ステップ）。`QRURL作成_new.xml`（53ステップ）は旧版の履歴。
 - パターン準備の現行版は `紹介割引パターン準備-ready-test.xml`（49ステップ、通常48＋紹介576候補）。接尾辞なしのXMLは旧版。
 - `年会費請求詳細-discount-layout-additions.xml` は追加4要素のみ。貼付時の位置調整と保存後照合が必要。

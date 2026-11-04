@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>「決済URLを準備」の使い方と仕様｜JFA_Data</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f2f5f4;color:#182e30;font:1rem/1.75 system-ui,sans-serif}main{max-width:50rem;margin:auto;padding:3rem clamp(1rem,5vw,3rem);background:white}header{border-top:5px solid #17635d;padding-top:1rem}.meta{font-size:.88rem;color:#335e59}h1,h2{line-height:1.4}h1{font-size:clamp(1.7rem,5vw,2.35rem);margin:.4rem 0}h2{font-size:1.25rem;margin:2rem 0 .6rem}p{margin:.5rem 0}.place{background:#eaf4f1;padding:.75rem 1rem;border-left:4px solid #17635d}li{padding-left:.25rem;margin:.55rem 0}ol{padding-left:1.6rem}dt{font-weight:700;margin:.8rem 0 .1rem}dd{margin:0}footer{margin-top:2rem;border-top:1px solid #bccdca;padding-top:.7rem}code{font-size:.95em} a{color:#125c56}@media print{body,main{background:white}main{padding:0;max-width:none}h2,dt{break-after:avoid}li,dd{break-inside:avoid}}
+</style>
+</head>
+<body><main>
+<header><div class="meta">JFA_Data ／ 経理向け操作資料 ／ 2027年度請求用</div>
+<h1>「決済URLを準備」の使い方</h1>
+<p>選んだ会員の請求に必要なパターンを調べ、経理がSquareの決済URLを入力する必要のある行だけを表示します。請求書の発行は別の操作です。</p></header>
+<p class="place"><strong>ボタンの場所：</strong>「会員情報_202108」レイアウト →「会員情報」タブ →「請求書作成」のすぐ上</p>
+<h2>操作手順</h2>
+<ol>
+<li><strong>会員を検索する。</strong> 会員のブラウズ画面に、今回請求したい人を表示します。ボタンは表示中の1人ではなく、現在の検索結果全体を対象にします。</li>
+<li><strong>「決済URLを準備」を押す。</strong> 確認画面の人数を見て「準備する」を選びます。範囲が違うときは「キャンセル」で戻れます。元の検索結果はそのまま残ります。</li>
+<li><strong>空欄のURLを登録する。</strong> 入力が必要な場合は、別ウインドウの「年会費請求詳細」に表示されます。各行のSコード・請求金額合計・内訳を確認し、該当金額の決済URLをSquareで用意して、その行の <code>SQ_url</code> に入力・確定します。同じ請求パターンを使う会員が複数いても、入力は1回です。</li>
+<li><strong>QR画像を確認する。</strong> URLの登録だけでは画像はできません。「年会費請求詳細」で生成する行を対象にして、既存のスクリプト「QRURL作成_new」を実行し、<code>QR_URL</code> に画像が入ったことを確認します。すでにURLが入っている行は準備結果には出ないので、画像が必要なら別途そのSコードを検索します。</li>
+<li><strong>発行するときだけ「請求書作成」を押す。</strong> 準備用のウインドウを閉じ、元の会員画面で対象者を確認してから発行します。</li>
+</ol>
+<h2>結果の読み方</h2>
+<dl>
+<dt>「対象」「対象外」</dt><dd>「対象」は状態が「正会員」で請求手段が入力されている人数です。郵送・メールなどの値を限定していないので、他の手段も対象です。正会員以外と、請求手段が空欄または空白だけの会員は「対象外」です。</dd>
+<dt>「要確認」</dt><dd>対象者のうち、年会費残額または請求合計が負、Sコードを取得できない、コードの請求合計と会員の請求額を照合できない、といった人数です。1人でもいれば、発行前に対象会員の請求内訳を確認してください。</dd>
+<dt>「すべて登録済み」／「入力対象はありません」</dt><dd>前者は、照合できたSコードにURLの空欄がないという意味です。後者は、入力先として表示できるコードがない場合です。いずれも「要確認」の人数は別に確認してください。QR画像があることまでは判定しません。</dd>
+</dl>
+<h2>どのSコードを使うか</h2>
+<p>ボタンは「対象会員の決済URL準備」を実行します。合計が正の請求について、請求書作成時と共通の「新請求パターン生成」で、年度・本人の年会費残額・オプション番号（紹介割引ありなら紹介人数と割引額も）を照合します。同じ条件なら既存のSコードとURLを使い、なければ入力用の行を作ります。合計0円で残額も負でなければ決済は不要です。ボタン自体は会員の請求コードを書き換えません。</p>
+<p><strong>例：</strong>本人の年会費が全額入金済みでも、海外発送費3,500円を請求する場合は対象です。この内訳のコードは <code>S2700431</code>。22歳以下の年会費残額だけを3,500円請求する <code>S2700029</code> とは、合計が同じでも別の行です。</p>
+<footer><p><strong>適用年度：</strong>このボタンは2027年度専用です。2028年度以降には自動で切り替わりません。</p>
+<p class="meta">仕様確認日：2026年11月3日　／　<a href="production_monthly_patterns_20261103.md">本番の作業履歴</a></p></footer>
+</main></body></html>
